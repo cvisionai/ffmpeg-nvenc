@@ -34,3 +34,17 @@ The following example reads in `file.mp4` and re-encodes using `hevc` to
 ```
 nvidia-docker run -v $(pwd):/working cvisionai/ffmpeg-nvenc -y -i file.mp4 -c:v hevc_nvenc -filter:v "hwupload_cuda,scale_npp=w=1920:h=1080,hwdownload,format=yuv420p" -strict 2 -tag:v hvc1 -preset medium file_1080p.mp4
 ```
+
+# Notes
+
+CRF setting in the nv_encoder for an estimted crf of 19 could look like this:
+
+```
+-preset llhq -rc:v vbr_minqp -qmin:v 19 -qmax:v 21 -b:v 2500k -maxrate:v 5000k
+```
+
+One can do a fixed QP:
+```
+-rc constqp -qp 21
+```
+
