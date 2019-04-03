@@ -22,3 +22,15 @@ The include makefile supports two targets:
 - build : constructs the docker image)
 - shell : opens a debug shell into the docker image
 
+# Usage the image
+
+To do something like transcode an video, one can use the docker image as an
+executable image, and arguments are forwarded to the ffmpeg executable inside
+the container: 
+
+The following example reads in `file.mp4` and re-encodes using `hevc` to
+`file_1080p.mp4`
+
+```
+nvidia-docker run -v $(pwd):/working cvisionai/ffmpeg-nvenc -y -i file.mp4 -c:v hevc_nvenc -filter:v "hwupload_cuda,scale_npp=w=1920:h=1080,hwdownload,format=yuv420p" -strict 2 -tag:v hvc1 -preset medium file_1080p.mp4
+```
