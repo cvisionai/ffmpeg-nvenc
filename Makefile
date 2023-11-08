@@ -2,7 +2,7 @@ help:
 	echo "Valid Targets: [shell, build]"
 
 build: Dockerfile
-	nvidia-docker build -t cvisionai/ffmpeg-nvenc -f Dockerfile .
+	docker build -t cvisionai/ffmpeg-nvenc -f Dockerfile .
 
 shell: build
-	nvidia-docker run --rm -ti --entrypoint=bash cvisionai/ffmpeg-nvenc
+	docker run --rm -ti --entrypoint=bash --gpus all -v /data:/data cvisionai/ffmpeg-nvenc
